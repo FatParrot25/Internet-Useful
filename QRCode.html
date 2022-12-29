@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>QR Code Generator</title>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <form method="post">
+        <label for="url">Enter the URL:</label><br>
+        <input type="text" id="url" name="url"><br>
+        <br>
+        <input type="submit" value="Generate QR Code">
+    </form>
+
+    <?php
+    if (isset($_POST['url'])) {
+    // Include the PHP QR Code library
+    require_once('phpqrcode/qrlib.php');
+
+    // Set the URL that you want to convert into a QR code
+    $url = $_POST['url'];
+
+    // Get the current date and time
+    $date = date('Y-m-d-H-i-s');
+
+    // Generate the QR code and save it to a file
+    $fileName = 'qr-code-' . $date . '.png';
+    QRcode::png($url, $fileName);
+
+    // Display the QR code image and download link
+    echo '<br><br><img src="' . $fileName . '" alt="QR code" /><br>';
+    echo '<a href="' . $fileName . '" download="qr-code-' . $date . '.png">Download QR Code</a>';
+    }
+    ?>
+</body>
+</html>
